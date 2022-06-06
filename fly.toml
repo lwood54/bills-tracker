@@ -1,4 +1,4 @@
-app = "bills_indie_stack-3694"
+app = "bills-tracker"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = [ ]

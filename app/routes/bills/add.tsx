@@ -75,7 +75,6 @@ export default function NewBillPage() {
             ref={titleRef}
             name="title"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            // aria-invalid={actionData?.errors?.title ? true : undefined}
             aria-invalid={Boolean(actionData?.errors?.title)}
             aria-errormessage={actionData?.errors?.title && "title-error"}
           />
@@ -91,10 +90,8 @@ export default function NewBillPage() {
         <label className="flex w-full flex-col gap-1">
           <span>Balance: </span>
           <input
-            // ref={titleRef}
             name="balance"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            // aria-invalid={actionData?.errors?.title ? true : undefined}
             aria-invalid={Boolean(actionData?.errors?.balance)}
             aria-errormessage={actionData?.errors?.balance && "balance-error"}
           />
@@ -109,10 +106,8 @@ export default function NewBillPage() {
         <label className="flex w-full flex-col gap-1">
           <span>Day Due: </span>
           <input
-            // ref={titleRef}
             name="dayDue"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            // aria-invalid={actionData?.errors?.title ? true : undefined}
             aria-invalid={Boolean(actionData?.errors?.dayDue)}
             aria-errormessage={actionData?.errors?.dayDue && "dayDue-error"}
           />
@@ -127,10 +122,8 @@ export default function NewBillPage() {
         <label className="flex w-full flex-col gap-1">
           <span>Interest Rate: </span>
           <input
-            // ref={titleRef}
             name="interestRate"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            // aria-invalid={actionData?.errors?.title ? true : undefined}
             aria-invalid={Boolean(actionData?.errors?.interestRate)}
             aria-errormessage={
               actionData?.errors?.interestRate && "interestRate-error"
@@ -147,10 +140,8 @@ export default function NewBillPage() {
         <label className="flex w-full flex-col gap-1">
           <span>Payment: </span>
           <input
-            // ref={titleRef}
             name="payment"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
-            // aria-invalid={actionData?.errors?.title ? true : undefined}
             aria-invalid={Boolean(actionData?.errors?.payment)}
             aria-errormessage={actionData?.errors?.payment && "payment-error"}
           />
