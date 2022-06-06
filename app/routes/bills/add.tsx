@@ -70,7 +70,7 @@ export default function NewBillPage() {
     >
       <div>
         <label className="flex w-full flex-col gap-1">
-          <span>Title: </span>
+          <span>Title</span>
           <input
             ref={titleRef}
             name="title"
@@ -88,7 +88,7 @@ export default function NewBillPage() {
 
       <div>
         <label className="flex w-full flex-col gap-1">
-          <span>Balance: </span>
+          <span>Balance</span>
           <input
             name="balance"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
@@ -104,7 +104,7 @@ export default function NewBillPage() {
       </div>
       <div>
         <label className="flex w-full flex-col gap-1">
-          <span>Day Due: </span>
+          <span>Day Due</span>
           <input
             name="dayDue"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
@@ -120,7 +120,7 @@ export default function NewBillPage() {
       </div>
       <div>
         <label className="flex w-full flex-col gap-1">
-          <span>Interest Rate: </span>
+          <span>Interest Rate</span>
           <input
             name="interestRate"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
@@ -138,7 +138,7 @@ export default function NewBillPage() {
       </div>
       <div>
         <label className="flex w-full flex-col gap-1">
-          <span>Payment: </span>
+          <span>Payment</span>
           <input
             name="payment"
             className="flex-1 rounded-md border-2 border-blue-500 px-3 text-lg leading-loose"
