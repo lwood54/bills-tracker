@@ -8,23 +8,26 @@ import { updateBill } from "~/models/bill.server";
 import { deleteBill, getBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 import Button, { BTN } from "~/components/button";
-import BillModify from "~/components/Bills/bill-modify";
-import DeleteForm from "~/components/Bills/bill-delete";
-import BillView from "~/components/Bills/bill-view";
+import Modify from "~/components/Bills/modify";
+import Delete from "~/components/Bills/delete";
+import View from "~/components/Bills/view";
+import Paydown from "~/components/Bills/paydown";
 
 type LoaderData = {
   bill: Bill;
 };
 
-type ActionData = {
-  errors?: {
-    title?: string;
-    balance?: string;
-    payment?: string;
-    dayDue?: string;
-    interestRate?: string;
-    category?: string;
-  };
+export type BillErrors = {
+  title?: string;
+  balance?: string;
+  payment?: string;
+  dayDue?: string;
+  interestRate?: string;
+  category?: string;
+};
+
+export type BillActionData = {
+  errors?: BillErrors;
 };
 
 export const loader: LoaderFunction = async ({ request, params }) => {
@@ -47,23 +50,50 @@ export const action: ActionFunction = async ({ request, params }) => {
   const isDelete = formData.get("action_type");
 
   if (isDelete) {
-    console.log("1 HERE???");
     await deleteBill({ userId, id: billId });
 
     return redirect("/bills");
   }
 
   const balance = Number(formData.get("balance"));
-  const dayDue = Number(formData.get("dayDue"));
-  const interestRate = Number(formData.get("interestRate"));
+  const dayDue = Number(formData.get("daydue"));
+  const interestRate = Number(formData.get("interestrate"));
   const payment = Number(formData.get("payment"));
   const title = formData.get("title")?.toString();
+  console.log({ dayDue, balance, title, interestRate, payment });
 
-  if (typeof title !== "string" || title.length === 0) {
-    return json<ActionData>(
-      { errors: { title: "Title is required" } },
-      { status: 400 }
-    );
+  const invalidTitle = typeof title !== "string" || title.length === 0;
+  const invalidBalance = typeof balance !== "number" || balance < 0;
+  const invalidDayDue =
+    typeof dayDue !== "number" || dayDue <= 0 || dayDue > 31;
+  const invalidInterestRate =
+    typeof interestRate !== "number" || interestRate < 0;
+  const invalidPayment = typeof payment !== "number" || payment < 0;
+
+  const errors = {
+    title: invalidTitle ? "Title is required" : "",
+    balance: invalidBalance
+      ? "Balance is required and must be greater than or equal to zero."
+      : "",
+    dayDue: invalidDayDue
+      ? "Day Due is required and must be between 1 and 31."
+      : "",
+    interestRate: invalidInterestRate
+      ? "Interest Rate is required and must be greater than or equal to zero."
+      : "",
+    payment: invalidPayment
+      ? "Payment is required and must be greater than or equal to zero."
+      : "",
+  };
+
+  if (
+    invalidTitle ||
+    invalidBalance ||
+    invalidDayDue ||
+    invalidInterestRate ||
+    invalidPayment
+  ) {
+    return json<BillActionData>({ errors }, { status: 400 });
   }
 
   const payload = {
@@ -81,31 +111,34 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   return {
-    errors: { title: "error" },
+    errors,
   };
 };
 
 export default function NoteDetailsPage() {
-  const actionData = useActionData<ActionData>();
+  const actionData = useActionData<BillActionData>();
   const data = useLoaderData<LoaderData>();
+  // const { bill } = data;
   const [isEdit, setIsEdit] = React.useState(false);
+  console.log({ bill: data.bill });
 
   return (
-    <div>
+    <div className="flex flex-col gap-4">
       {isEdit ? (
-        <BillModify data={data} errors={actionData?.errors} />
+        <Modify bill={data.bill} errors={actionData?.errors} />
       ) : (
-        <BillView data={data} />
+        <View bill={data.bill} />
       )}
-      <hr className="my-4" />
       <div className="flex gap-4">
         <Button
           label={isEdit ? "Cancel" : "Edit"}
           onClick={() => setIsEdit(!isEdit)}
           variant={BTN.EDIT}
         />
-        <DeleteForm />
+        <Delete />
       </div>
+      <hr className="border-1 border-solid border-slate-400" />
+      <Paydown bill={data.bill} />
     </div>
   );
 }
