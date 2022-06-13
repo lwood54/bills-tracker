@@ -2,7 +2,7 @@ import { Form } from "@remix-run/react";
 import * as React from "react";
 import Button, { BTN } from "../button";
 
-const DeleteForm: React.FC = () => {
+const Delete: React.FC = () => {
   return (
     <Form method="post">
       <input hidden readOnly value="delete" name="action_type" />
@@ -11,4 +11,4 @@ const DeleteForm: React.FC = () => {
   );
 };
 
-export default DeleteForm;
+export default Delete;

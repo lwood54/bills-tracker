@@ -1,7 +1,7 @@
 import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
-import BillModify from "~/components/Bills/bill-modify";
+import Modify from "~/components/Bills/modify";
 import { createBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 
@@ -47,5 +47,5 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NewBillPage() {
   const actionData = useActionData<ActionData>();
-  return <BillModify errors={actionData?.errors} />;
+  return <Modify errors={actionData?.errors} />;
 }
