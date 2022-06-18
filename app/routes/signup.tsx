@@ -76,7 +76,7 @@ export const meta: MetaFunction = () => {
   };
 };
 
-export default function Join() {
+export default function Signup() {
   const [searchParams] = useSearchParams();
   const redirectTo = searchParams.get("redirectTo") ?? undefined;
   const actionData = useActionData() as ActionData;

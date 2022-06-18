@@ -14,7 +14,6 @@ export const loader: LoaderFunction = async ({ request }) => {
   const userId = await requireUserId(request);
   const billListItems = await getBillListItems({ userId });
   return json<LoaderData>({ billListItems });
-  // return json<LoaderData>({ billListItems: [] });
 };
 
 export default function BillsPage() {
