@@ -14,10 +14,16 @@ import {
 } from "@remix-run/react";
 
 import tailwindStylesheetUrl from "./styles/tailwind.css";
+import globalStyles from "./styles/main-app.css";
 import { getUser } from "./session.server";
+import NavBar, { links as navStyles } from "~/components/NavBar";
 
 export const links: LinksFunction = () => {
-  return [{ rel: "stylesheet", href: tailwindStylesheetUrl }];
+  return [
+    { rel: "stylesheet", href: tailwindStylesheetUrl },
+    { rel: "stylesheet", href: globalStyles },
+    ...navStyles(),
+  ];
 };
 
 export const meta: MetaFunction = () => ({
@@ -44,6 +50,7 @@ export default function App() {
         <Links />
       </head>
       <body className="h-full">
+        <NavBar />
         <Outlet />
         <ScrollRestoration />
         <Scripts />

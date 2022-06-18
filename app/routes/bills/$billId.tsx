@@ -12,6 +12,11 @@ import Modify from "~/components/Bills/modify";
 import Delete from "~/components/Bills/delete";
 import View from "~/components/Bills/view";
 import Paydown from "~/components/Bills/paydown";
+import billsStyles from "~/styles/bills.css";
+
+export function links() {
+  return [{ rel: "stylesheet", href: billsStyles }];
+}
 
 type LoaderData = {
   bill: Bill;
@@ -118,7 +123,6 @@ export const action: ActionFunction = async ({ request, params }) => {
 export default function NoteDetailsPage() {
   const actionData = useActionData<BillActionData>();
   const data = useLoaderData<LoaderData>();
-  // const { bill } = data;
   const [isEdit, setIsEdit] = React.useState(false);
   console.log({ bill: data.bill });
 
