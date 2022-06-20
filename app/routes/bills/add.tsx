@@ -5,7 +5,6 @@ import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
 import { urlPath } from "~/constants/url-paths";
 import { createBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
-import { links as buttonStyles } from "~/components/button";
 
 export const links: LinksFunction = () => {
   return [...modifyStyles()];

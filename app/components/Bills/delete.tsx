@@ -1,6 +1,6 @@
 import { Form } from "@remix-run/react";
 import * as React from "react";
-import Button, { BTN } from "../button";
+import Button, { BTN } from "~/components/Button";
 
 const Delete: React.FC = () => {
   return (

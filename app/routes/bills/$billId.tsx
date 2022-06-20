@@ -17,7 +17,7 @@ import Paydown, { links as paydownStyles } from "~/components/Bills/Paydown";
 import Menu, { links as menuStyles } from "~/components/Bills/Menu";
 import billsStyles from "~/styles/bills.css";
 import View, { links as viewStyles } from "~/components/Bills/View";
-import Button, { BTN, links as buttonStyles } from "~/components/button";
+import Button, { BTN, links as buttonStyles } from "~/components/Button";
 import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
 
 export const links: LinksFunction = () => {
