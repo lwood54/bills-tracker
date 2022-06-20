@@ -66,6 +66,27 @@ export function useUser(): User {
   return maybeUser;
 }
 
-export function validateEmail(email: unknown): email is string {
-  return typeof email === "string" && email.length > 3 && email.includes("@");
+export function validateEmail(email: string): { emailError?: string } {
+  if (typeof email !== "string" || email.length < 3 || !email.includes("@")) {
+    return {
+      emailError: "Email is invalid",
+    };
+  }
+  return {
+    emailError: "",
+  };
+}
+
+export function validatePassword(password: string): { passwordError?: string } {
+  if (typeof password !== "string" || password.length === 0) {
+    return {
+      passwordError: "Password is required",
+    };
+  }
+  if (password.length < 8) {
+    return {
+      passwordError: "Password is too short",
+    };
+  }
+  return { passwordError: "" };
 }
