@@ -1,0 +1,38 @@
+:root {
+  --primary-slate: rgb(30 41 59);
+  --primary-slate-light: rgba(30, 41, 59, 0.396);
+  --secondary-green: rgb(16 185 129);
+  --secondary-green-light: rgb(101, 182, 155);
+  --secondary-gray: rgb(112, 119, 130);
+  --secondary-gray-light: rgba(112, 119, 130, 0.405);
+  --active-item: rgb(45, 142, 167);
+  --negative: rgb(161, 23, 23);
+  --negative-light: rgb(186, 78, 78);
+  --blue: rgb(14 165 233);
+  --blue-light: rgb(112, 199, 239);
+
+  /* BORDERS & SHADOWS */
+  --box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5), 0 2px 4px -2px rgb(0 0 0 / 0.5);
+  --box-shadow-right: 6px 4px 15px 0px rgba(26, 84, 59, 0.74);
+  --border-radius: 4px;
+
+  /* SPACING */
+  --gap-m: 1em;
+  --gap-l: 2em;
+  --gap-s: 0.5em;
+  --padding-m: 1em;
+  --padding-l: 2em;
+  --padding-s: 0.5em;
+
+  /* FONT */
+  --font-m: 1rem;
+  --font-l: 1.5rem;
+  --font-xl: 2rem;
+  --font-s: 0.75rem;
+  --font-xs: 0.5;
+  --font-color-inverted: rgb(237, 242, 250);
+  --font-color: rgb(14, 22, 34);
+  --font-bold: 900;
+  --font-semi-bold: 700;
+  --font-thin: 400;
+}

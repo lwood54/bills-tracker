@@ -1,34 +1,48 @@
 import * as React from "react";
-import type { ActionFunction, LoaderFunction } from "@remix-run/node";
+import type {
+  ActionFunction,
+  LinksFunction,
+  LoaderFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { Bill } from "~/models/bill.server";
+import { getBillListItems } from "~/models/bill.server";
 import { updateBill } from "~/models/bill.server";
 import { deleteBill, getBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
-import Button, { BTN } from "~/components/button";
-import Modify from "~/components/Bills/modify";
 import Delete from "~/components/Bills/delete";
-import View from "~/components/Bills/view";
-import Paydown from "~/components/Bills/paydown";
+import Paydown, { links as paydownStyles } from "~/components/Bills/Paydown";
+import Menu, { links as menuStyles } from "~/components/Bills/Menu";
 import billsStyles from "~/styles/bills.css";
+import View, { links as viewStyles } from "~/components/Bills/View";
+import Button, { BTN, links as buttonStyles } from "~/components/button";
+import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
 
-export function links() {
-  return [{ rel: "stylesheet", href: billsStyles }];
-}
+export const links: LinksFunction = () => {
+  return [
+    ...buttonStyles(),
+    ...paydownStyles(),
+    ...menuStyles(),
+    ...modifyStyles(),
+    ...viewStyles(),
+    { rel: "stylesheet", href: billsStyles },
+  ];
+};
 
 type LoaderData = {
   bill: Bill;
+  bills: Bill[];
 };
 
 export type BillErrors = {
-  title?: string;
   balance?: string;
-  payment?: string;
   dayDue?: string;
   interestRate?: string;
-  category?: string;
+  limit?: string;
+  title?: string;
+  payment?: string;
 };
 
 export type BillActionData = {
@@ -43,7 +57,8 @@ export const loader: LoaderFunction = async ({ request, params }) => {
   if (!bill) {
     throw new Response("Not Found", { status: 404 });
   }
-  return json<LoaderData>({ bill });
+  const billListItems = await getBillListItems({ userId });
+  return json<LoaderData>({ bill, bills: billListItems });
 };
 
 export const action: ActionFunction = async ({ request, params }) => {
@@ -65,10 +80,11 @@ export const action: ActionFunction = async ({ request, params }) => {
   const interestRate = Number(formData.get("interestrate"));
   const payment = Number(formData.get("payment"));
   const title = formData.get("title")?.toString();
-  console.log({ dayDue, balance, title, interestRate, payment });
+  const limit = Number(formData.get("limit"));
 
   const invalidTitle = typeof title !== "string" || title.length === 0;
   const invalidBalance = typeof balance !== "number" || balance < 0;
+  const invalidLimit = typeof limit !== "number" || limit < balance;
   const invalidDayDue =
     typeof dayDue !== "number" || dayDue <= 0 || dayDue > 31;
   const invalidInterestRate =
@@ -86,6 +102,7 @@ export const action: ActionFunction = async ({ request, params }) => {
     interestRate: invalidInterestRate
       ? "Interest Rate is required and must be greater than or equal to zero."
       : "",
+    limit: invalidLimit ? "Credit Limit must be greater than balance." : "",
     payment: invalidPayment
       ? "Payment is required and must be greater than or equal to zero."
       : "",
@@ -94,6 +111,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (
     invalidTitle ||
     invalidBalance ||
+    invalidLimit ||
     invalidDayDue ||
     invalidInterestRate ||
     invalidPayment
@@ -103,6 +121,7 @@ export const action: ActionFunction = async ({ request, params }) => {
 
   const payload = {
     balance,
+    limit,
     dayDue,
     interestRate,
     payment,
@@ -124,25 +143,26 @@ export default function NoteDetailsPage() {
   const actionData = useActionData<BillActionData>();
   const data = useLoaderData<LoaderData>();
   const [isEdit, setIsEdit] = React.useState(false);
-  console.log({ bill: data.bill });
 
   return (
-    <div className="flex flex-col gap-4">
-      {isEdit ? (
-        <Modify bill={data.bill} errors={actionData?.errors} />
-      ) : (
-        <View bill={data.bill} />
-      )}
-      <div className="flex gap-4">
-        <Button
-          label={isEdit ? "Cancel" : "Edit"}
-          onClick={() => setIsEdit(!isEdit)}
-          variant={BTN.EDIT}
-        />
-        <Delete />
+    <div className="bill-page-container">
+      <Menu bills={data.bills} />
+      <div className="bill-container">
+        {isEdit ? (
+          <Modify bill={data.bill} errors={actionData?.errors} />
+        ) : (
+          <View bill={data.bill} />
+        )}
+        <Paydown bill={data.bill} />
+        <div className="button-container">
+          <Button
+            label={isEdit ? "Cancel" : "Edit"}
+            onClick={() => setIsEdit(!isEdit)}
+            variant={BTN.EDIT}
+          />
+          <Delete />
+        </div>
       </div>
-      <hr className="border-1 border-solid border-slate-400" />
-      <Paydown bill={data.bill} />
     </div>
   );
 }

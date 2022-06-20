@@ -1,20 +1,31 @@
 import type { Bill } from "@prisma/client";
+import type { LinksFunction } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import * as React from "react";
+import Button, { BTN, links as buttonStyles } from "~/components/button";
 import { concatToLowerCase } from "~/helpers/conversions";
 import type { BillErrors } from "~/routes/bills/$billId";
-import Button, { BTN } from "../button";
+import styles from "./styles.css";
 
-interface BillModifyProps {
+export const links: LinksFunction = () => [
+  {
+    rel: "stylesheet",
+    href: styles,
+  },
+  ...buttonStyles(),
+];
+
+interface ModifyProps {
   errors?: BillErrors;
   bill?: Bill;
 }
-const BillModify: React.FC<BillModifyProps> = ({ errors, bill }) => {
-  const titleRef = React.useRef<HTMLInputElement>(null);
+const Modify: React.FC<ModifyProps> = ({ errors, bill }) => {
   const balanceRef = React.useRef<HTMLInputElement>(null);
   const dayDueRef = React.useRef<HTMLInputElement>(null);
   const interestRateRef = React.useRef<HTMLInputElement>(null);
+  const limitRef = React.useRef<HTMLInputElement>(null);
   const paymentRef = React.useRef<HTMLInputElement>(null);
+  const titleRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (errors?.title) {
@@ -49,6 +60,12 @@ const BillModify: React.FC<BillModifyProps> = ({ errors, bill }) => {
         sectionRef={balanceRef}
       />
       <ModifyField
+        label="Limit"
+        defaultValue={bill?.limit}
+        error={errors?.limit}
+        sectionRef={limitRef}
+      />
+      <ModifyField
         label="Day Due"
         defaultValue={bill?.dayDue}
         error={errors?.dayDue}
@@ -73,7 +90,7 @@ const BillModify: React.FC<BillModifyProps> = ({ errors, bill }) => {
   );
 };
 
-export default BillModify;
+export default Modify;
 
 function ModifyField({
   error,
@@ -89,10 +106,8 @@ function ModifyField({
   return (
     <label className="bg-slate-200">
       <p className="text-xl font-semibold">{label}</p>
-      {console.log("concat --> ", concatToLowerCase(label))}
       <input
         ref={sectionRef}
-        // name={label.toLocaleLowerCase()}
         name={concatToLowerCase(label)}
         className="w-full border-b-2 border-solid border-slate-400 bg-slate-200"
         aria-invalid={Boolean(error)}

@@ -1,3 +1,21 @@
-h1 {
-  color: var(--test-color);
+.bill-page-container {
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+}
+
+.bills-list-container {
+  padding: var(--padding-m);
+}
+
+.bill-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-l);
+  padding: var(--padding-m);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--gap-l);
 }

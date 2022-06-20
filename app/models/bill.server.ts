@@ -18,19 +18,33 @@ export function getBill({
 export function getBillListItems({ userId }: { userId: User["id"] }) {
   const res = prisma.bill.findMany({
     where: { userId },
-    select: { id: true, title: true },
+    // select: {
+    //   id: true,
+    //   title: true,
+    //   payment: true,
+    //   balance: true,
+    //   limit: true,
+    //   interestRate: true,
+    // },
     orderBy: { title: "desc" },
   });
   console.log({ billsMaybe: res });
   return res;
 }
 
-type BillField = "balance" | "dayDue" | "interestRate" | "payment" | "title";
+type BillField =
+  | "balance"
+  | "dayDue"
+  | "interestRate"
+  | "limit"
+  | "payment"
+  | "title";
 
 export function createBill({
   balance,
   dayDue,
   interestRate,
+  limit,
   payment,
   title,
   userId,
@@ -42,6 +56,7 @@ export function createBill({
       balance,
       dayDue,
       interestRate,
+      limit,
       payment,
       title,
       user: {
@@ -93,11 +108,3 @@ export function updateBill({
     },
   });
 }
-// export const updateBill = await prisma.user.update({
-//   where: {
-//     email: 'viola@prisma.io',
-//   },
-//   data: {
-//     name: 'Viola the Magnificent',
-//   },
-// })

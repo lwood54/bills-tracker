@@ -10,3 +10,6 @@ export const formatter = new Intl.NumberFormat("en-US", {
 
 export const concatToLowerCase = (str: string): string =>
   str.split(" ").join("").toLowerCase();
+
+export const getDateAndTimeStrings = (date: Date): string =>
+  `${date.toLocaleDateString()} @ ${date.toLocaleTimeString()}`;
