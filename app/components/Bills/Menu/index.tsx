@@ -1,16 +1,7 @@
 import type { Bill } from "@prisma/client";
-import type { LinksFunction } from "@remix-run/node";
 import { Link, NavLink } from "@remix-run/react";
 import * as React from "react";
 import { urlPath } from "~/constants/url-paths";
-import styles from "./styles.css";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-];
 
 interface MenuProps {
   children?: React.ReactNode;

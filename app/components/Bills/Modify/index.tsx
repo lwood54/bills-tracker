@@ -1,19 +1,9 @@
 import type { Bill } from "@prisma/client";
-import type { LinksFunction } from "@remix-run/node";
 import { Form } from "@remix-run/react";
 import * as React from "react";
-import Button, { BTN, links as buttonStyles } from "~/components/Button";
+import Button, { BTN } from "~/components/Button";
 import { concatToLowerCase } from "~/helpers/conversions";
 import type { BillErrors } from "~/routes/bills/$billId";
-import styles from "./styles.css";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-  ...buttonStyles(),
-];
 
 interface ModifyProps {
   errors?: BillErrors;

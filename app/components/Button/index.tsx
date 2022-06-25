@@ -1,13 +1,4 @@
-import type { LinksFunction } from "@remix-run/node";
 import * as React from "react";
-import styles from "./styles.css";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-];
 
 export const BTN = {
   DELETE: "delete",

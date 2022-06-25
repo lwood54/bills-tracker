@@ -18,17 +18,8 @@ export function getBill({
 export function getBillListItems({ userId }: { userId: User["id"] }) {
   const res = prisma.bill.findMany({
     where: { userId },
-    // select: {
-    //   id: true,
-    //   title: true,
-    //   payment: true,
-    //   balance: true,
-    //   limit: true,
-    //   interestRate: true,
-    // },
     orderBy: { title: "desc" },
   });
-  console.log({ billsMaybe: res });
   return res;
 }
 

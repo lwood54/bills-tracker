@@ -1,9 +1,5 @@
 import * as React from "react";
-import type {
-  ActionFunction,
-  LinksFunction,
-  LoaderFunction,
-} from "@remix-run/node";
+import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
 import invariant from "tiny-invariant";
@@ -13,23 +9,11 @@ import { updateBill } from "~/models/bill.server";
 import { deleteBill, getBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 import Delete from "~/components/Bills/delete";
-import Paydown, { links as paydownStyles } from "~/components/Bills/Paydown";
-import Menu, { links as menuStyles } from "~/components/Bills/Menu";
-import billsStyles from "~/styles/bill-page.css";
-import View, { links as viewStyles } from "~/components/Bills/View";
-import Button, { BTN, links as buttonStyles } from "~/components/Button";
-import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
-
-export const links: LinksFunction = () => {
-  return [
-    ...buttonStyles(),
-    ...paydownStyles(),
-    ...menuStyles(),
-    ...modifyStyles(),
-    ...viewStyles(),
-    { rel: "stylesheet", href: billsStyles },
-  ];
-};
+import Paydown from "~/components/Bills/Paydown";
+import Menu from "~/components/Bills/Menu";
+import View from "~/components/Bills/View";
+import Button, { BTN } from "~/components/Button";
+import Modify from "~/components/Bills/Modify";
 
 type LoaderData = {
   bill: Bill;
