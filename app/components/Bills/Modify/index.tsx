@@ -46,7 +46,7 @@ const Modify: React.FC<ModifyProps> = ({ errors, bill }) => {
   }, [errors]);
 
   return (
-    <Form method="post" className="flex flex-col gap-4 pt-1">
+    <Form method="post" className="">
       <ModifyField
         label="Title"
         defaultValue={bill?.title}

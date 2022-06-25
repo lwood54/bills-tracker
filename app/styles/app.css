@@ -6,6 +6,7 @@
   --secondary-gray: rgb(112, 119, 130);
   --secondary-gray-light: rgba(112, 119, 130, 0.405);
   --active-item: rgb(45, 142, 167);
+  --bg-white: rgb(234, 250, 252);
   --negative: rgb(161, 23, 23);
   --negative-light: rgb(186, 78, 78);
   --blue: rgb(14 165 233);
@@ -35,4 +36,7 @@
   --font-bold: 900;
   --font-semi-bold: 700;
   --font-thin: 400;
+
+  /* BREAKPOINTS */
+  --screen-m: 56.25rem;
 }
