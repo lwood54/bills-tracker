@@ -1,16 +1,7 @@
 import * as React from "react";
-import type { LinksFunction } from "@remix-run/node";
-import styles from "./styles.css";
 import { Form, NavLink } from "@remix-run/react";
 import type { User } from "@prisma/client";
 import { urlPath } from "~/constants/url-paths";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-];
 
 interface NavBarProps {
   children?: React.ReactNode;

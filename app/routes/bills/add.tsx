@@ -1,14 +1,10 @@
-import type { ActionFunction, LinksFunction } from "@remix-run/node";
+import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
-import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
+import Modify from "~/components/Bills/Modify";
 import { urlPath } from "~/constants/url-paths";
 import { createBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
-
-export const links: LinksFunction = () => {
-  return [...modifyStyles()];
-};
 
 type ActionData = {
   errors?: {

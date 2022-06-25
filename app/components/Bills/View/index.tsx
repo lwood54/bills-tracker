@@ -1,15 +1,6 @@
 import type { Bill } from "@prisma/client";
 import * as React from "react";
-import styles from "./styles.css";
 import { formatter, getDateAndTimeStrings } from "~/helpers/conversions";
-import type { LinksFunction } from "@remix-run/node";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-];
 
 interface BillViewProps {
   bill: Bill;

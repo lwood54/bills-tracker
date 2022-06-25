@@ -1,16 +1,7 @@
 import type { Bill } from "@prisma/client";
 import * as React from "react";
-import type { LinksFunction } from "@remix-run/node";
-import styles from "./styles.css";
 import { formatter } from "~/helpers/conversions";
 import { calcMonthsToPayDown } from "~/helpers/paydown";
-
-export const links: LinksFunction = () => [
-  {
-    rel: "stylesheet",
-    href: styles,
-  },
-];
 
 interface PaydownProps {
   bill: Bill;

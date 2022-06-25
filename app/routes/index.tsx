@@ -1,4 +1,6 @@
+import * as React from "react";
 import { Link } from "@remix-run/react";
+import { Spinner } from "@chakra-ui/react";
 
 import { useOptionalUser } from "~/utils";
 
