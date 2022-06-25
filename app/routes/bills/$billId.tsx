@@ -15,7 +15,7 @@ import { requireUserId } from "~/session.server";
 import Delete from "~/components/Bills/delete";
 import Paydown, { links as paydownStyles } from "~/components/Bills/Paydown";
 import Menu, { links as menuStyles } from "~/components/Bills/Menu";
-import billsStyles from "~/styles/bills.css";
+import billsStyles from "~/styles/bill-page.css";
 import View, { links as viewStyles } from "~/components/Bills/View";
 import Button, { BTN, links as buttonStyles } from "~/components/Button";
 import Modify, { links as modifyStyles } from "~/components/Bills/Modify";
@@ -143,11 +143,18 @@ export default function NoteDetailsPage() {
   const actionData = useActionData<BillActionData>();
   const data = useLoaderData<LoaderData>();
   const [isEdit, setIsEdit] = React.useState(false);
+  const [isOpen, setIsOpen] = React.useState(false);
 
   return (
     <div className="bill-page-container">
-      <Menu bills={data.bills} />
-      <div className="bill-container">
+      <div className="menu-icon-container" onClick={() => setIsOpen(!isOpen)}>
+        OPEN
+      </div>
+      <Menu bills={data.bills} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <div
+        className="bill-container"
+        onClick={() => isOpen && setIsOpen(false)}
+      >
         {isEdit ? (
           <Modify bill={data.bill} errors={actionData?.errors} />
         ) : (

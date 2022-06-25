@@ -15,10 +15,15 @@ export const links: LinksFunction = () => [
 interface MenuProps {
   children?: React.ReactNode;
   bills: Bill[];
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
-const Menu: React.FC<MenuProps> = ({ bills }) => {
+const Menu: React.FC<MenuProps> = ({ bills, isOpen, setIsOpen }) => {
   return (
-    <div className="menu-container">
+    <div className={`menu-container ${isOpen ? "show" : "hide"}`}>
+      <div className="menu-icon" onClick={() => setIsOpen(!isOpen)}>
+        |x|
+      </div>
       <Link className="new-item" to={urlPath.BILLS_ADD}>
         + New Bill
       </Link>

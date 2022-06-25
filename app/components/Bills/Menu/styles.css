@@ -4,6 +4,13 @@
   flex-direction: column;
   height: calc(100vh - 75px);
   box-shadow: var(--box-shadow);
+  position: absolute;
+  /* z-index: 10; */
+  background-color: var(--bg-white);
+  visibility: visible;
+  opacity: 1;
+  left: 0px;
+  transition: all 0.25s linear;
 }
 
 .menu-item {
@@ -15,6 +22,19 @@
   font-weight: 400;
   padding: 0.5em 1em;
   color: var(--font-color);
+}
+
+.menu-icon {
+  width: 275px;
+  display: flex;
+  justify-content: flex-end;
+  border: 1px solid red;
+}
+
+.hide {
+  visibility: hidden;
+  opacity: 0;
+  left: -275px;
 }
 
 .menu-item:hover {
