@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Link } from "@remix-run/react";
-import { Spinner } from "@chakra-ui/react";
-
+import { Button } from "@chakra-ui/react";
 import { useOptionalUser } from "~/utils";
 
 export default function Index() {
@@ -12,8 +11,12 @@ export default function Index() {
         <Link to="/bills">View Bills for {user.email}</Link>
       ) : (
         <div>
-          <Link to="/signup">Sign up</Link>
-          <Link to="/login">Log In</Link>
+          <Button>
+            <Link to="/login">Log In</Link>
+          </Button>
+          <Button>
+            <Link to="/signup">Sign up</Link>
+          </Button>
         </div>
       )}
     </main>
