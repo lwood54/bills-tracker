@@ -59,7 +59,7 @@ const BillsTable: React.FC<BillsTableProps> = ({ billsList }) => {
             >
               <Td width={225}>
                 <Text fontWeight="bold" maxW={225} noOfLines={1}>
-                  {bill.title} as;ldfkjasd;lfkja;sldfjasldfjalskdfjlkasdj
+                  {bill.title}
                 </Text>
               </Td>
               <Td>
