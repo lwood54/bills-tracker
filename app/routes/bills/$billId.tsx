@@ -1,7 +1,14 @@
 import * as React from "react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useCatch, useLoaderData } from "@remix-run/react";
+import {
+  Form,
+  useActionData,
+  useCatch,
+  useLoaderData,
+  useSubmit,
+  useTransition,
+} from "@remix-run/react";
 import invariant from "tiny-invariant";
 import type { Bill } from "~/models/bill.server";
 import { getBillListItems } from "~/models/bill.server";
@@ -13,6 +20,11 @@ import Paydown from "~/components/Bills/Paydown";
 import Menu from "~/components/Bills/Menu";
 import View from "~/components/Bills/View";
 import Button, { BTN } from "~/components/Button";
+import { FormProvider, useForm } from "react-hook-form";
+import { dataToFormData } from "~/helpers/conversions";
+import FormInput from "~/components/FormInput";
+import { VALIDATION } from "~/constants/bills";
+import { Container } from "@chakra-ui/react";
 import Modify from "~/components/Bills/Modify";
 
 type LoaderData = {
@@ -48,6 +60,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export const action: ActionFunction = async ({ request, params }) => {
   const userId = await requireUserId(request);
   const billId = params.billId ?? "";
+  console.log({ billId });
   invariant(params.billId, "billId not found");
 
   const formData = await request.formData();
@@ -60,48 +73,11 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   const balance = Number(formData.get("balance"));
-  const dayDue = Number(formData.get("daydue"));
-  const interestRate = Number(formData.get("interestrate"));
+  const dayDue = Number(formData.get("dayDue"));
+  const interestRate = Number(formData.get("interestRate"));
   const payment = Number(formData.get("payment"));
-  const title = formData.get("title")?.toString();
+  const title = formData.get("title")?.toString() ?? "";
   const limit = Number(formData.get("limit"));
-
-  const invalidTitle = typeof title !== "string" || title.length === 0;
-  const invalidBalance = typeof balance !== "number" || balance < 0;
-  const invalidLimit = typeof limit !== "number" || limit < balance;
-  const invalidDayDue =
-    typeof dayDue !== "number" || dayDue <= 0 || dayDue > 31;
-  const invalidInterestRate =
-    typeof interestRate !== "number" || interestRate < 0;
-  const invalidPayment = typeof payment !== "number" || payment < 0;
-
-  const errors = {
-    title: invalidTitle ? "Title is required" : "",
-    balance: invalidBalance
-      ? "Balance is required and must be greater than or equal to zero."
-      : "",
-    dayDue: invalidDayDue
-      ? "Day Due is required and must be between 1 and 31."
-      : "",
-    interestRate: invalidInterestRate
-      ? "Interest Rate is required and must be greater than or equal to zero."
-      : "",
-    limit: invalidLimit ? "Credit Limit must be greater than balance." : "",
-    payment: invalidPayment
-      ? "Payment is required and must be greater than or equal to zero."
-      : "",
-  };
-
-  if (
-    invalidTitle ||
-    invalidBalance ||
-    invalidLimit ||
-    invalidDayDue ||
-    invalidInterestRate ||
-    invalidPayment
-  ) {
-    return json<BillActionData>({ errors }, { status: 400 });
-  }
 
   const payload = {
     balance,
@@ -119,32 +95,49 @@ export const action: ActionFunction = async ({ request, params }) => {
   }
 
   return {
-    errors,
+    error: new Error("There was an error submitting your bill."),
   };
 };
 
 export default function NoteDetailsPage() {
   const actionData = useActionData<BillActionData>();
-  const data = useLoaderData<LoaderData>();
+  const { bill, bills } = useLoaderData<LoaderData>();
   const [isEdit, setIsEdit] = React.useState(false);
   const [isOpen, setIsOpen] = React.useState(false);
+
+  const methods = useForm<Bill>({
+    mode: "all",
+    reValidateMode: "onChange",
+    defaultValues: {
+      title: bill?.title || "",
+      balance: bill?.balance || 0,
+      interestRate: bill?.interestRate || 0,
+      limit: bill?.limit || 0,
+      dayDue: bill?.dayDue || 1,
+      payment: bill?.payment || 0,
+    },
+  });
 
   return (
     <div className="bill-page-container">
       <div className="menu-icon-container" onClick={() => setIsOpen(!isOpen)}>
         OPEN
       </div>
-      <Menu bills={data.bills} isOpen={isOpen} setIsOpen={setIsOpen} />
+      <Menu bills={bills} isOpen={isOpen} setIsOpen={setIsOpen} />
       <div
         className="bill-container"
         onClick={() => isOpen && setIsOpen(false)}
       >
-        {isEdit ? (
-          <Modify bill={data.bill} errors={actionData?.errors} />
-        ) : (
-          <View bill={data.bill} />
-        )}
-        <Paydown bill={data.bill} />
+        <Container>
+          {isEdit ? (
+            <FormProvider {...methods}>
+              <Modify bill={bill} />
+            </FormProvider>
+          ) : (
+            <View bill={bill} />
+          )}
+          <Paydown bill={bill} />
+        </Container>
         <div className="button-container">
           <Button
             label={isEdit ? "Cancel" : "Edit"}
