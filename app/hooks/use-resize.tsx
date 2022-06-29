@@ -6,7 +6,11 @@ function useResize(wait: number = 0): { width: number; height: number } {
     width: typeof window !== "undefined" ? window.innerWidth : 0,
     height: typeof window !== "undefined" ? window.innerHeight : 0,
   });
-  const debouncedSize = useDebounce(size, wait);
+  const [debouncedSize, setDebouncedSize] = React.useState<{
+    width: number;
+    height: number;
+  }>({ width: 0, height: 0 });
+  const delayedSize = useDebounce(size, wait);
 
   React.useEffect(() => {
     const listener = () =>
@@ -19,6 +23,12 @@ function useResize(wait: number = 0): { width: number; height: number } {
       window.removeEventListener("resize", listener);
     };
   }, [size]);
+
+  React.useEffect(() => {
+    // NOTE: setting to state prevents hydration issues when using
+    // results directly in the consuming component.
+    setDebouncedSize(delayedSize);
+  }, [delayedSize]);
 
   return debouncedSize;
 }
