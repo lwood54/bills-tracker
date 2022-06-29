@@ -8,8 +8,21 @@ export const formatter = new Intl.NumberFormat("en-US", {
   //maximumFractionDigits: 0, // (causes 2500.99 to be printed as $2,501)
 });
 
+export const isNegative = (num: string | number) => Number(num) < 0;
+export const isPositive = (num: string | number, includeZero?: boolean) =>
+  includeZero ? Number(num) >= 0 : Number(num) > 0;
+
 export const concatToLowerCase = (str: string): string =>
   str.split(" ").join("").toLowerCase();
 
 export const getDateAndTimeStrings = (date: Date): string =>
   `${date.toLocaleDateString()} @ ${date.toLocaleTimeString()}`;
+
+export function dataToFormData<T>(data: T): FormData {
+  const formData = new FormData();
+  const entries = Object.entries(data);
+  entries.forEach((d) => {
+    formData.append(d[0], d[1]);
+  });
+  return formData;
+}
