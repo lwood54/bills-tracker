@@ -24,12 +24,7 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function BillsPage() {
   const navigate = useNavigate();
   const data = useLoaderData<LoaderData>();
-  const { width } = useResize(250);
-  const [showList, setShowList] = React.useState(false);
-
-  React.useEffect(() => {
-    setShowList(width <= 500);
-  }, [width]);
+  const { width } = useResize(150);
 
   return (
     <Container maxWidth={1200}>
@@ -47,7 +42,8 @@ export default function BillsPage() {
             onClick={() => navigate(urlPath.BILLS_ADD)}
           />
         </Box>
-        {showList ? (
+        {/* {showList ? ( */}
+        {width < 500 ? (
           <BillsList billsList={data.billListItems} />
         ) : (
           <BillsTable billsList={data.billListItems} />

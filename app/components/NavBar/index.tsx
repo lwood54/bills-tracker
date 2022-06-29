@@ -3,12 +3,15 @@ import { Form, NavLink } from "@remix-run/react";
 import type { User } from "@prisma/client";
 import { urlPath } from "~/constants/url-paths";
 import { Box, Button, Stack, Text } from "@chakra-ui/react";
+import useResize from "~/hooks/use-resize";
 
 interface NavBarProps {
   children?: React.ReactNode;
   user: User;
 }
 const NavBar: React.FC<NavBarProps> = ({ user }) => {
+  const { width } = useResize(100);
+
   return (
     <Box
       w="full"
@@ -44,7 +47,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
           </Button>
         </NavLink>
       </Stack>
-      <Text color="white">{user.email}</Text>
+      {width > 550 ? <Text color="white">{user.email}</Text> : null}
       <Form action="/logout" method="post">
         <Button
           borderRadius="2"
