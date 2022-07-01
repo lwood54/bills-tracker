@@ -11,10 +11,10 @@ export default function Index() {
         <Link to="/bills">View Bills for {user.email}</Link>
       ) : (
         <div>
-          <Button>
+          <Button rounded="sm">
             <Link to="/login">Log In</Link>
           </Button>
-          <Button>
+          <Button rounded="sm">
             <Link to="/signup">Sign up</Link>
           </Button>
         </div>

@@ -1,8 +1,12 @@
+import { Box, Button, Container, HStack, Stack } from "@chakra-ui/react";
 import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import { useActionData, useSubmit, useTransition } from "@remix-run/react";
+import { FormProvider, useForm } from "react-hook-form";
+import Modify from "~/components/Bills/Modify";
 import { urlPath } from "~/constants/url-paths";
-import { createBill } from "~/models/bill.server";
+import { dataToFormData } from "~/helpers/conversions";
+import { Bill, createBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 
 type ActionData = {
@@ -57,6 +61,48 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NewBillPage() {
   const actionData = useActionData<ActionData>();
-  // return <Modify errors={actionData?.errors} />;
-  return <h1>add</h1>;
+  const { state } = useTransition();
+  const submit = useSubmit();
+  const methods = useForm<Bill>({
+    mode: "all",
+    reValidateMode: "onChange",
+    defaultValues: {
+      title: "",
+      balance: 0,
+      interestRate: 0,
+      limit: 0,
+      dayDue: 1,
+      payment: 0,
+    },
+  });
+  const { handleSubmit } = methods;
+  const handleSave = (data: Bill) => {
+    submit(dataToFormData(data), { method: "post" });
+  };
+  return (
+    <Container m="4">
+      <Stack>
+        <FormProvider {...methods}>
+          <Modify />
+        </FormProvider>
+        <HStack justifyContent="flex-end" w="full">
+          <Button
+            rounded="sm"
+            onClick={handleSubmit(handleSave)}
+            size="lg"
+            colorScheme="cyan"
+            w="100px"
+            disabled={state === "submitting"}
+            isLoading={state === "submitting" || state === "loading"}
+            spinnerPlacement="start"
+            borderBottomColor="cyan.700"
+            borderBottomWidth="4px"
+            color="teal.800"
+          >
+            Save
+          </Button>
+        </HStack>
+      </Stack>
+    </Container>
+  );
 }

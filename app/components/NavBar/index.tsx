@@ -24,7 +24,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
       <Stack direction="row">
         <NavLink to={urlPath.ROOT}>
           <Button
-            borderRadius="2"
+            rounded="sm"
             bgColor="blue.300"
             _hover={{ bg: "blue.200" }}
             _active={{ bg: "blue.400" }}
@@ -36,7 +36,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         </NavLink>
         <NavLink to={urlPath.BILLS}>
           <Button
-            borderRadius="2"
+            rounded="sm"
             bgColor="blue.300"
             _hover={{ bg: "blue.200" }}
             _active={{ bg: "blue.400" }}
@@ -50,7 +50,7 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
       {width > 550 ? <Text color="white">{user.email}</Text> : null}
       <Form action="/logout" method="post">
         <Button
-          borderRadius="2"
+          rounded="sm"
           bgColor="blue.300"
           _hover={{ bg: "blue.200" }}
           _active={{ bg: "blue.400" }}

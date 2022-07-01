@@ -1,41 +1,52 @@
+import { Box, Container, HStack, Stack, Text } from "@chakra-ui/react";
 import type { Bill } from "@prisma/client";
 import * as React from "react";
+import DisplayField from "~/components/DisplayField";
 import { formatter, getDateAndTimeStrings } from "~/helpers/conversions";
+import useResize from "~/hooks/use-resize";
 
 interface BillViewProps {
   bill: Bill;
 }
 
 const BillView: React.FC<BillViewProps> = ({ bill }) => {
+  const { width } = useResize(100);
+
   return (
-    <div className="view-container">
-      <h3 className="title">{bill.title}</h3>
-      <BillViewSection label="Balance" value={formatter.format(bill.balance)} />
-      <BillViewSection label="Limit" value={formatter.format(bill.limit)} />
-      <BillViewSection label="Interest Rate" value={`${bill.interestRate}%`} />
-      <BillViewSection label="Payment" value={formatter.format(bill.payment)} />
-      <BillViewSection label="Day Due" value={bill.dayDue} />
-      <BillViewSection
-        label="Last Updated at"
-        value={getDateAndTimeStrings(new Date(bill.updatedAt))}
-      />
-    </div>
+    <>
+      <Text fontSize="3xl" fontWeight="semibold">
+        {bill.title}
+      </Text>
+      <Stack
+        direction={width > 500 ? "row" : "column"}
+        justifyContent="space-between"
+      >
+        <DisplayField label="Balance">
+          {formatter.format(bill.balance)}
+        </DisplayField>
+        <DisplayField label="Limit">
+          {formatter.format(bill.limit)}
+        </DisplayField>
+      </Stack>
+      <Stack
+        direction={width > 500 ? "row" : "column"}
+        justifyContent="flex-start"
+      >
+        <DisplayField label="Interest">{`${bill.interestRate}%`}</DisplayField>
+        <DisplayField label="Payment">
+          {formatter.format(bill.payment)}
+        </DisplayField>
+      </Stack>
+      <Stack direction={width > 500 ? "row" : "column"}>
+        <DisplayField label="Day Due">
+          {formatter.format(bill.payment)}
+        </DisplayField>
+        <DisplayField label="Last Updated at">
+          {getDateAndTimeStrings(new Date(bill.updatedAt))}
+        </DisplayField>
+      </Stack>
+    </>
   );
 };
 
 export default BillView;
-
-function BillViewSection({
-  label,
-  value,
-}: {
-  label: string;
-  value: string | number | Date;
-}) {
-  return (
-    <div className="item">
-      <p className="item-label">{label}</p>
-      <p className="item-value">{value}</p>
-    </div>
-  );
-}
