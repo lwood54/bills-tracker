@@ -19,12 +19,11 @@ import Delete from "~/components/Bills/delete";
 import Paydown from "~/components/Bills/Paydown";
 import Menu from "~/components/Bills/Menu";
 import View from "~/components/Bills/View";
-import Button, { BTN } from "~/components/Button";
 import { FormProvider, useForm } from "react-hook-form";
 import { dataToFormData } from "~/helpers/conversions";
 import FormInput from "~/components/FormInput";
 import { VALIDATION } from "~/constants/bills";
-import { Container } from "@chakra-ui/react";
+import { Button, Container, HStack, Stack } from "@chakra-ui/react";
 import Modify from "~/components/Bills/Modify";
 
 type LoaderData = {
@@ -100,6 +99,8 @@ export const action: ActionFunction = async ({ request, params }) => {
 };
 
 export default function NoteDetailsPage() {
+  const { state } = useTransition();
+  const submit = useSubmit();
   const actionData = useActionData<BillActionData>();
   const { bill, bills } = useLoaderData<LoaderData>();
   const [isEdit, setIsEdit] = React.useState(false);
@@ -117,37 +118,104 @@ export default function NoteDetailsPage() {
       payment: bill?.payment || 0,
     },
   });
+  const { handleSubmit } = methods;
+  const handleSave = (data: Bill) => {
+    submit(dataToFormData(data), { method: "post" });
+  };
 
   return (
-    <div className="bill-page-container">
-      <div className="menu-icon-container" onClick={() => setIsOpen(!isOpen)}>
+    <Container p="4">
+      <Stack spacing="4">
+        {/* <div className="menu-icon-container" onClick={() => setIsOpen(!isOpen)}>
         OPEN
       </div>
       <Menu bills={bills} isOpen={isOpen} setIsOpen={setIsOpen} />
       <div
         className="bill-container"
         onClick={() => isOpen && setIsOpen(false)}
-      >
+      > */}
         <Container>
-          {isEdit ? (
-            <FormProvider {...methods}>
-              <Modify bill={bill} />
-            </FormProvider>
-          ) : (
-            <View bill={bill} />
-          )}
-          <Paydown bill={bill} />
+          <Stack spacing="4">
+            {isEdit ? (
+              <FormProvider {...methods}>
+                <Modify bill={bill} />
+              </FormProvider>
+            ) : (
+              <View bill={bill} />
+            )}
+            <Paydown bill={bill} />
+          </Stack>
         </Container>
-        <div className="button-container">
-          <Button
-            label={isEdit ? "Cancel" : "Edit"}
-            onClick={() => setIsEdit(!isEdit)}
-            variant={BTN.EDIT}
-          />
-          <Delete />
-        </div>
-      </div>
-    </div>
+        <Container>
+          <HStack justifyContent="flex-end" gap="4">
+            {isEdit ? (
+              <Button
+                rounded="sm"
+                bgColor="red.600"
+                _hover={{ bg: "red.300" }}
+                _active={{ bg: "red.800" }}
+                _focus={{ bg: "red.800" }}
+                borderBottomColor="red.900"
+                borderBottomWidth="4px"
+                color="white"
+                size="lg"
+                w="100px"
+                onClick={() => setIsEdit(false)}
+              >
+                Cancel
+              </Button>
+            ) : (
+              <Delete>
+                <Button
+                  rounded="sm"
+                  bgColor="red.600"
+                  _hover={{ bg: "red.300" }}
+                  _active={{ bg: "red.800" }}
+                  _focus={{ bg: "red.800" }}
+                  borderBottomColor="red.900"
+                  borderBottomWidth="4px"
+                  color="white"
+                  size="lg"
+                  w="100px"
+                >
+                  Delete
+                </Button>
+              </Delete>
+            )}
+            {isEdit ? (
+              <Button
+                rounded="sm"
+                onClick={handleSubmit(handleSave)}
+                size="lg"
+                colorScheme="cyan"
+                w="100px"
+                disabled={state === "submitting"}
+                isLoading={state === "submitting" || state === "loading"}
+                spinnerPlacement="start"
+                borderBottomColor="cyan.700"
+                borderBottomWidth="4px"
+                color="teal.800"
+              >
+                Save
+              </Button>
+            ) : (
+              <Button
+                borderRadius="2"
+                colorScheme={isEdit ? "red" : "cyan"}
+                w="100px"
+                borderBottomColor="cyan.700"
+                borderBottomWidth="4px"
+                size="lg"
+                color="teal.800"
+                onClick={() => setIsEdit(true)}
+              >
+                Edit
+              </Button>
+            )}
+          </HStack>
+        </Container>
+      </Stack>
+    </Container>
   );
 }
 

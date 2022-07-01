@@ -1,12 +1,15 @@
 import { Form } from "@remix-run/react";
 import * as React from "react";
-import Button, { BTN } from "~/components/Button";
 
-const Delete: React.FC = () => {
+interface DeleteProps {
+  children: React.ReactNode;
+}
+
+const Delete: React.FC<DeleteProps> = ({ children }) => {
   return (
     <Form method="post">
       <input hidden readOnly value="delete" name="action_type" />
-      <Button label="Delete" variant={BTN.DELETE} />
+      {children}
     </Form>
   );
 };
