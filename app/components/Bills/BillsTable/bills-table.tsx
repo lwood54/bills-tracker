@@ -37,7 +37,7 @@ const BillsTable: React.FC<BillsTableProps> = ({ billsList }) => {
     <TableContainer>
       <Table>
         <TableCaption textAlign="left">
-          Paydown display for your bills.
+          Paydown progress for your bills
         </TableCaption>
         <Thead>
           <Tr>

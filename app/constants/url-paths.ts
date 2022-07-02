@@ -5,4 +5,6 @@ export const urlPath = {
   BILLS_LIST: "/bills/list",
   BILLS_VIEW: "/bills/view",
   BILLS_EDIT: "/bills/edit",
+  LOGIN: "/login",
+  SIGNUP: "/signup",
 } as const;

@@ -1,12 +1,12 @@
-import { Box, Button, Stack } from "@chakra-ui/react";
+import { Stack } from "@chakra-ui/react";
 import type { Bill } from "@prisma/client";
-import { Form, useSubmit, useTransition } from "@remix-run/react";
+import { Form } from "@remix-run/react";
 import * as React from "react";
 import { useFormContext } from "react-hook-form";
-import FormInput from "~/components/FormInput";
+import { FormInput } from "~/components/FormInput";
 import { VALIDATION } from "~/constants/bills";
 
-import { dataToFormData, isPositive } from "~/helpers/conversions";
+import { isPositive } from "~/helpers/conversions";
 import useBreakpoints, { BP, BP_VALUES } from "~/hooks/use-breakpoints";
 
 interface ModifyProps {

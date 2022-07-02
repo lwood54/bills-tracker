@@ -53,7 +53,7 @@ export const action: ActionFunction = async ({ request }) => {
   });
 
   if (bill) {
-    return redirect(`${urlPath.BILLS}`);
+    return redirect(`${urlPath.BILLS_LIST}`);
   }
 
   return json<ActionData>(
