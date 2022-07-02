@@ -21,8 +21,9 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
       p="4"
       bg="teal.600"
       alignItems="center"
+      ref={navRef}
     >
-      <Stack direction="row" ref={navRef}>
+      <Stack direction="row">
         <NavLink to={urlPath.ROOT}>
           <Button
             rounded="sm"

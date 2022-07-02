@@ -24,10 +24,12 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "button" | "submit";
   variant?: btnType;
+  size?: "sm" | "md" | "lg" | "full";
 }
 const ButtonBase: React.FC<ButtonProps> = ({
   children,
   onClick,
+  size = "md",
   type = "button",
   variant = BTN.POSITIVE,
 }) => {
@@ -68,7 +70,20 @@ const ButtonBase: React.FC<ButtonProps> = ({
       case BTN.POSITIVE:
         return "white";
       case BTN.SECONDARY:
-        return "teal.900";
+        return "white";
+    }
+  };
+
+  const getSize = (s: "sm" | "md" | "lg" | "full"): string => {
+    switch (s) {
+      case "sm":
+        return "75px";
+      case "md":
+        return "100px";
+      case "lg":
+        return "200px";
+      case "full":
+        return "100%";
     }
   };
 
@@ -84,7 +99,7 @@ const ButtonBase: React.FC<ButtonProps> = ({
       borderBottomWidth="4px"
       color={getFontColor(variant)}
       size="lg"
-      w="100px"
+      w={getSize(size)}
       onClick={onClick}
     >
       {children}

@@ -7,15 +7,12 @@ import type { Bill } from "~/models/bill.server";
 import { getBillListItems } from "~/models/bill.server";
 import { urlPath } from "~/constants/url-paths";
 import { Container, Text, Box, IconButton, Stack } from "@chakra-ui/react";
-import useResize from "~/hooks/use-resize";
 import { AddIcon } from "@chakra-ui/icons";
-import Card from "~/components/Card";
-import { BillsList } from "~/components/Bills/BillsList";
 import { BillsTable } from "~/components/Bills/BillsTable";
 import useBreakpoints, { BP, BP_VALUES } from "~/hooks/use-breakpoints";
+import { BillsList } from "~/components/Bills/BillsList";
 
 type LoaderData = {
-  // billListItems: Awaited<ReturnType<typeof getBillListItems>>;
   billListItems: Bill[];
 };
 
@@ -28,7 +25,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 export default function BillsPage() {
   const navigate = useNavigate();
   const data = useLoaderData<LoaderData>();
-  // const { width } = useResize(150);
   const pageRef = React.useRef({} as HTMLDivElement);
   const size = useBreakpoints(pageRef, BP_VALUES);
 
