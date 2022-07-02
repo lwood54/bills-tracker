@@ -19,7 +19,7 @@ import type {
 import { json } from "@remix-run/node";
 
 import { ServerStyleContext, ClientStyleContext } from "./context";
-import NavBar from "./components/NavBar";
+import { NavBar } from "./components/NavBar";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",

@@ -2,7 +2,6 @@ import * as React from "react";
 import type { ActionFunction, LoaderFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
-  Form,
   useActionData,
   useCatch,
   useLoaderData,
@@ -17,14 +16,15 @@ import { deleteBill, getBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 import Delete from "~/components/Bills/delete";
 import Paydown from "~/components/Bills/Paydown";
-import Menu from "~/components/Bills/Menu";
-import View from "~/components/Bills/View";
 import { FormProvider, useForm } from "react-hook-form";
 import { dataToFormData } from "~/helpers/conversions";
-import FormInput from "~/components/FormInput";
-import { VALIDATION } from "~/constants/bills";
-import { Button, Container, HStack, Stack } from "@chakra-ui/react";
-import Modify from "~/components/Bills/Modify";
+import { Container, HStack, Stack } from "@chakra-ui/react";
+import Card from "~/components/Card";
+import Inset from "~/components/Inset";
+import ButtonBase, { BTN } from "~/components/ButtonBase/button-base";
+import { urlPath } from "~/constants/url-paths";
+import { View } from "~/components/Bills/View";
+import { Modify } from "~/components/Bills/Modify";
 
 type LoaderData = {
   bill: Bill;
@@ -68,7 +68,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   if (isDelete) {
     await deleteBill({ userId, id: billId });
 
-    return redirect("/bills");
+    return redirect(urlPath.BILLS_LIST);
   }
 
   const balance = Number(formData.get("balance"));
@@ -90,7 +90,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   const bill = await updateBill({ id: billId ?? "", userId, payload });
 
   if (bill) {
-    return redirect("/bills");
+    return redirect(urlPath.BILLS_LIST);
   }
 
   return {
@@ -124,98 +124,58 @@ export default function NoteDetailsPage() {
   };
 
   return (
-    <Container p="4">
-      <Stack spacing="4">
-        {/* <div className="menu-icon-container" onClick={() => setIsOpen(!isOpen)}>
-        OPEN
-      </div>
-      <Menu bills={bills} isOpen={isOpen} setIsOpen={setIsOpen} />
-      <div
-        className="bill-container"
-        onClick={() => isOpen && setIsOpen(false)}
-      > */}
-        <Container>
-          <Stack spacing="4">
-            {isEdit ? (
-              <FormProvider {...methods}>
-                <Modify bill={bill} />
-              </FormProvider>
-            ) : (
-              <View bill={bill} />
-            )}
-            <Paydown bill={bill} />
-          </Stack>
-        </Container>
-        <Container>
-          <HStack justifyContent="flex-end" gap="4">
-            {isEdit ? (
-              <Button
-                rounded="sm"
-                bgColor="red.600"
-                _hover={{ bg: "red.300" }}
-                _active={{ bg: "red.800" }}
-                _focus={{ bg: "red.800" }}
-                borderBottomColor="red.900"
-                borderBottomWidth="4px"
-                color="white"
-                size="lg"
-                w="100px"
-                onClick={() => setIsEdit(false)}
-              >
-                Cancel
-              </Button>
-            ) : (
-              <Delete>
-                <Button
-                  rounded="sm"
-                  bgColor="red.600"
-                  _hover={{ bg: "red.300" }}
-                  _active={{ bg: "red.800" }}
-                  _focus={{ bg: "red.800" }}
-                  borderBottomColor="red.900"
-                  borderBottomWidth="4px"
-                  color="white"
-                  size="lg"
-                  w="100px"
-                >
-                  Delete
-                </Button>
-              </Delete>
-            )}
-            {isEdit ? (
-              <Button
-                rounded="sm"
-                onClick={handleSubmit(handleSave)}
-                size="lg"
-                colorScheme="cyan"
-                w="100px"
-                disabled={state === "submitting"}
-                isLoading={state === "submitting" || state === "loading"}
-                spinnerPlacement="start"
-                borderBottomColor="cyan.700"
-                borderBottomWidth="4px"
-                color="teal.800"
-              >
-                Save
-              </Button>
-            ) : (
-              <Button
-                borderRadius="2"
-                colorScheme={isEdit ? "red" : "cyan"}
-                w="100px"
-                borderBottomColor="cyan.700"
-                borderBottomWidth="4px"
-                size="lg"
-                color="teal.800"
-                onClick={() => setIsEdit(true)}
-              >
-                Edit
-              </Button>
-            )}
-          </HStack>
-        </Container>
-      </Stack>
-    </Container>
+    <Inset>
+      <Card>
+        <Stack spacing="4">
+          <Container>
+            <Stack spacing="4">
+              {isEdit ? (
+                <FormProvider {...methods}>
+                  <Modify bill={bill} />
+                </FormProvider>
+              ) : (
+                <View bill={bill} />
+              )}
+              <Paydown bill={bill} />
+            </Stack>
+          </Container>
+          <Container>
+            <HStack justifyContent="flex-end" gap="4">
+              {isEdit ? (
+                <>
+                  <ButtonBase
+                    variant={BTN.NEGATIVE}
+                    onClick={() => setIsEdit(false)}
+                  >
+                    Cancel
+                  </ButtonBase>
+                  <ButtonBase
+                    variant={BTN.POSITIVE}
+                    onClick={handleSubmit(handleSave)}
+                  >
+                    Save
+                  </ButtonBase>
+                </>
+              ) : (
+                <>
+                  <Delete>
+                    <ButtonBase type="submit" variant={BTN.NEGATIVE}>
+                      Delete
+                    </ButtonBase>
+                  </Delete>
+                  <ButtonBase
+                    onClick={() => setIsEdit(true)}
+                    variant={BTN.POSITIVE}
+                  >
+                    Edit
+                  </ButtonBase>
+                </>
+              )}
+            </HStack>
+          </Container>
+        </Stack>
+      </Card>
+    </Inset>
   );
 }
 
