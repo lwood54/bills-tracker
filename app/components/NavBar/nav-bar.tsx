@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Form, NavLink } from "@remix-run/react";
+import { Form, NavLink, useLocation } from "@remix-run/react";
 import type { User } from "@prisma/client";
 import { urlPath } from "~/constants/url-paths";
 import { Box, Button, Stack, Text } from "@chakra-ui/react";
@@ -11,7 +11,13 @@ interface NavBarProps {
 }
 const NavBar: React.FC<NavBarProps> = ({ user }) => {
   const navRef = React.useRef({} as HTMLDivElement);
+  const { pathname } = useLocation();
+  const [active, setActive] = React.useState("");
   const size = useBreakpoints(navRef, BP_VALUES);
+
+  React.useEffect(() => {
+    setActive(pathname);
+  }, [pathname]);
 
   return (
     <Box
@@ -26,11 +32,11 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         <NavLink to={urlPath.ROOT}>
           <Button
             rounded="sm"
-            bgColor="blue.300"
-            _hover={{ bg: "blue.200" }}
-            _active={{ bg: "blue.400" }}
-            _focus={{ bg: "blue.400" }}
-            color="teal.800"
+            bgColor="rgba(0,0,0,0)"
+            borderBottom="4px"
+            borderColor={active === urlPath.ROOT ? "teal.800" : "rgba(0,0,0,0)"}
+            _hover={{ bg: "teal.400" }}
+            color="teal.900"
           >
             Home
           </Button>
@@ -38,11 +44,13 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         <NavLink to={urlPath.BILLS_LIST}>
           <Button
             rounded="sm"
-            bgColor="blue.300"
-            _hover={{ bg: "blue.200" }}
-            _active={{ bg: "blue.400" }}
-            _focus={{ bg: "blue.400" }}
-            color="teal.800"
+            bgColor="rgba(0,0,0,0)"
+            borderBottom="4px"
+            borderColor={
+              active === urlPath.BILLS_LIST ? "teal.800" : "rgba(0,0,0,0)"
+            }
+            _hover={{ bg: "teal.400" }}
+            color="teal.900"
           >
             Bills
           </Button>
@@ -52,12 +60,12 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
       <Form action="/logout" method="post">
         <Button
           rounded="sm"
-          bgColor="blue.300"
-          _hover={{ bg: "blue.200" }}
-          _active={{ bg: "blue.400" }}
-          _focus={{ bg: "blue.400" }}
-          color="teal.800"
           type="submit"
+          bgColor="rgba(0,0,0,0)"
+          borderBottom="4px"
+          borderColor="rgba(0,0,0,0)"
+          _hover={{ bg: "teal.400" }}
+          color="teal.900"
         >
           Logout
         </Button>

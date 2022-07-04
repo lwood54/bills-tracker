@@ -136,7 +136,7 @@ export default function NoteDetailsPage() {
               ) : (
                 <View bill={bill} />
               )}
-              <Paydown bill={bill} />
+              <Paydown bill={bill} showDetails />
             </Stack>
           </Container>
           <Container>
