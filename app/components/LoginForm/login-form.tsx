@@ -28,7 +28,7 @@ const LoginForm: React.FC<LoginFormProps> = ({ isLogin = true }) => {
 
   return (
     <>
-      <Container pt="150">
+      <Container>
         <Stack spacing="8">
           <Stack>
             <FormInput
@@ -64,7 +64,14 @@ const LoginForm: React.FC<LoginFormProps> = ({ isLogin = true }) => {
                   search: searchParams.toString(),
                 }}
               >
-                <Text color="blue.800">{isLogin ? "Sign Up" : "Log In"}</Text>
+                <Text
+                  color="blue.700"
+                  fontWeight="semibold"
+                  _hover={{ color: "blue.900" }}
+                  _active={{ color: "blue.500" }}
+                >
+                  {isLogin ? "Sign Up" : "Log In"}
+                </Text>
               </Link>
             </HStack>
           </Stack>

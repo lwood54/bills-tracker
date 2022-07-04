@@ -11,6 +11,7 @@ import { AddIcon } from "@chakra-ui/icons";
 import { BillsTable } from "~/components/Bills/BillsTable";
 import useBreakpoints, { BP, BP_VALUES } from "~/hooks/use-breakpoints";
 import { BillsList } from "~/components/Bills/BillsList";
+import { BackgroundContainer } from "~/components/BackgroundContainer";
 
 type LoaderData = {
   billListItems: Bill[];
@@ -29,15 +30,22 @@ export default function BillsPage() {
   const size = useBreakpoints(pageRef, BP_VALUES);
 
   return (
-    <Box p="5" ref={pageRef}>
+    <BackgroundContainer p="4">
       <Container
         maxWidth={1200}
         boxShadow="lg"
         border="1px"
-        borderColor="gray.200"
-        pb="4"
+        borderColor="teal.600"
+        bg="rgba(119, 222, 247, .5)"
+        py="4"
+        ref={pageRef}
       >
-        <Text textAlign="center" fontSize="3xl" fontWeight="semibold">
+        <Text
+          color="white"
+          textAlign="center"
+          fontSize="3xl"
+          fontWeight="semibold"
+        >
           Bills
         </Text>
         <Stack direction="column">
@@ -46,7 +54,7 @@ export default function BillsPage() {
               aria-label="Search database"
               icon={<AddIcon />}
               borderRadius="full"
-              colorScheme="teal"
+              bgColor="teal.600"
               color="white"
               onClick={() => navigate(urlPath.BILLS_ADD)}
             />
@@ -58,6 +66,6 @@ export default function BillsPage() {
           )}
         </Stack>
       </Container>
-    </Box>
+    </BackgroundContainer>
   );
 }

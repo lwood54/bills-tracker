@@ -25,23 +25,6 @@ function ClientCacheProvider({ children }: ClientCacheProviderProps) {
   );
 }
 
-// console.log({ ENV: process.env.NODE_ENV });
-// if (process.env.NODE_ENV === "test") {
-//   require("react-dom").hydrate(
-//     <ClientCacheProvider>
-//       <RemixBrowser />
-//     </ClientCacheProvider>,
-//     document
-//   );
-// } else {
-//   hydrateRoot(
-//     document,
-//     <ClientCacheProvider>
-//       <RemixBrowser />
-//     </ClientCacheProvider>
-//   );
-// }
-
 hydrateRoot(
   document,
   <ClientCacheProvider>

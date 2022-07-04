@@ -14,7 +14,7 @@ import type { Bill } from "@prisma/client";
 import { useNavigate } from "@remix-run/react";
 import * as React from "react";
 import { urlPath } from "~/constants/url-paths";
-import Paydown from "../Paydown";
+import { Paydown } from "../Paydown";
 
 interface BillsTableProps {
   children?: React.ReactNode;
@@ -41,8 +41,10 @@ const BillsTable: React.FC<BillsTableProps> = ({ billsList }) => {
         </TableCaption>
         <Thead>
           <Tr>
-            <Th>Bill</Th>
-            <Th textAlign="center">Progress</Th>
+            <Th borderColor="teal.600">Bill</Th>
+            <Th borderColor="teal.600" textAlign="center">
+              Progress
+            </Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -50,20 +52,20 @@ const BillsTable: React.FC<BillsTableProps> = ({ billsList }) => {
             <Tr
               tabIndex={0}
               onKeyPress={(e) => handleRowClick(bill.id, false, e)}
-              bg={i % 2 === 0 ? "cyan.200" : ""}
+              bg={i % 2 === 0 ? "cyan.800" : ""}
               key={bill.id}
               cursor="pointer"
               onClick={() => handleRowClick(bill.id)}
-              _hover={{ bg: "teal.100" }}
-              _active={{ bg: "teal.200" }}
-              _focus={{ bg: "teal.200" }}
+              _hover={{ bg: "cyan.300" }}
+              _active={{ bg: "cyan.400" }}
+              _focus={{ bg: "cyan.300" }}
             >
-              <Td width={225}>
-                <Text fontWeight="bold" maxW={225} noOfLines={1}>
+              <Td width={225} borderColor="teal.600">
+                <Text fontWeight="bold" maxW={225} noOfLines={1} color="white">
                   {bill.title}
                 </Text>
               </Td>
-              <Td>
+              <Td borderColor="teal.600">
                 <Paydown bill={bill} />
               </Td>
             </Tr>

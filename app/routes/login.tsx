@@ -25,6 +25,7 @@ import { Box, Container, HStack, Stack, Text } from "@chakra-ui/react";
 import { dataToFormData } from "~/helpers/conversions";
 import ButtonBase from "~/components/ButtonBase/button-base";
 import { LoginForm } from "~/components/LoginForm";
+import Card from "~/components/Card";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
@@ -92,12 +93,14 @@ export default function LoginPage() {
   }>();
 
   return (
-    <BackgroundContainer>
-      <Form>
-        <FormProvider {...methods}>
-          <LoginForm />
-        </FormProvider>
-      </Form>
+    <BackgroundContainer p="10">
+      <Card>
+        <Form>
+          <FormProvider {...methods}>
+            <LoginForm />
+          </FormProvider>
+        </Form>
+      </Card>
     </BackgroundContainer>
   );
 }

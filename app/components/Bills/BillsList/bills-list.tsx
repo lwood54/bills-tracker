@@ -3,7 +3,7 @@ import type { Bill } from "@prisma/client";
 import { useNavigate } from "@remix-run/react";
 import * as React from "react";
 import { urlPath } from "~/constants/url-paths";
-import Paydown from "../Paydown";
+import { Paydown } from "../Paydown";
 
 interface BillsListProps {
   children?: React.ReactNode;
@@ -29,7 +29,7 @@ const BillsList: React.FC<BillsListProps> = ({ billsList }) => {
           tabIndex={0}
           key={bill.id}
           onKeyPress={(e) => handleRowClick(bill.id, false, e)}
-          bg={i % 2 === 0 ? "cyan.200" : ""}
+          bg={i % 2 === 0 ? "cyan.800" : ""}
           _hover={{ bg: "teal.100" }}
           _active={{ bg: "teal.200" }}
           _focus={{ bg: "teal.200" }}
@@ -37,7 +37,9 @@ const BillsList: React.FC<BillsListProps> = ({ billsList }) => {
           cursor="pointer"
           onClick={() => handleRowClick(bill.id)}
         >
-          <Text>{bill.title}</Text>
+          <Text fontWeight="semibold" color="white">
+            {bill.title}
+          </Text>
           <Paydown bill={bill} />
         </Box>
       ))}

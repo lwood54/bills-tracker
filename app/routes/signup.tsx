@@ -15,6 +15,7 @@ import { urlPath } from "~/constants/url-paths";
 import { BackgroundContainer } from "~/components/BackgroundContainer";
 import { FormProvider, useForm } from "react-hook-form";
 import { LoginForm } from "~/components/LoginForm";
+import Card from "~/components/Card";
 
 export const loader: LoaderFunction = async ({ request }) => {
   const userId = await getUserId(request);
@@ -79,12 +80,14 @@ export default function Signup() {
   }>();
 
   return (
-    <BackgroundContainer>
-      <Form>
-        <FormProvider {...methods}>
-          <LoginForm isLogin={false} />
-        </FormProvider>
-      </Form>
+    <BackgroundContainer p="10">
+      <Card>
+        <Form>
+          <FormProvider {...methods}>
+            <LoginForm isLogin={false} />
+          </FormProvider>
+        </Form>
+      </Card>
     </BackgroundContainer>
   );
 }
