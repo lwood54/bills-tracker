@@ -28,7 +28,6 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
         {...register("title", {
           required: VALIDATION.REQUIRED,
         })}
-        placeholder="American Express"
         label="Title"
       />
       <Stack ref={modifyRef} direction={directionType}>
@@ -39,7 +38,6 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
             required: VALIDATION.REQUIRED,
             validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
           })}
-          placeholder="Balance"
           label="Balance"
         />
         <FormInput
@@ -49,7 +47,6 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
             required: VALIDATION.REQUIRED,
             validate: (v) => isPositive(v, true) || VALIDATION.POS_INT, // TODO: validate for greater than balance
           })}
-          placeholder="4000"
           label="Limit"
         />
       </Stack>
@@ -61,7 +58,6 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
             required: VALIDATION.REQUIRED,
             validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
           })}
-          placeholder="Interest"
           label="Interest"
         />
         <FormInput
@@ -71,7 +67,6 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
             required: VALIDATION.REQUIRED,
             validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
           })}
-          placeholder="Payment"
           label="Payment"
         />
       </Stack>

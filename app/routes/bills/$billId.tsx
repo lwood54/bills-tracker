@@ -15,7 +15,7 @@ import { updateBill } from "~/models/bill.server";
 import { deleteBill, getBill } from "~/models/bill.server";
 import { requireUserId } from "~/session.server";
 import Delete from "~/components/Bills/delete";
-import Paydown from "~/components/Bills/Paydown";
+import { Paydown } from "~/components/Bills/Paydown";
 import { FormProvider, useForm } from "react-hook-form";
 import { dataToFormData } from "~/helpers/conversions";
 import { Container, HStack, Stack } from "@chakra-ui/react";
@@ -25,6 +25,7 @@ import ButtonBase, { BTN } from "~/components/ButtonBase/button-base";
 import { urlPath } from "~/constants/url-paths";
 import { View } from "~/components/Bills/View";
 import { Modify } from "~/components/Bills/Modify";
+import { BackgroundContainer } from "~/components/BackgroundContainer";
 
 type LoaderData = {
   bill: Bill;
@@ -59,7 +60,6 @@ export const loader: LoaderFunction = async ({ request, params }) => {
 export const action: ActionFunction = async ({ request, params }) => {
   const userId = await requireUserId(request);
   const billId = params.billId ?? "";
-  console.log({ billId });
   invariant(params.billId, "billId not found");
 
   const formData = await request.formData();
@@ -124,7 +124,7 @@ export default function NoteDetailsPage() {
   };
 
   return (
-    <Inset>
+    <BackgroundContainer p="4">
       <Card>
         <Stack spacing="4">
           <Container>
@@ -175,7 +175,7 @@ export default function NoteDetailsPage() {
           </Container>
         </Stack>
       </Card>
-    </Inset>
+    </BackgroundContainer>
   );
 }
 

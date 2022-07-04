@@ -26,18 +26,18 @@ const FormInput: React.FC<FormInputProps> = React.forwardRef(
       <FormControl isInvalid={Boolean(error?.message)}>
         <Stack direction="column" spacing={spacing} alignItems="flex-start">
           {label && (
-            <FormLabel color="teal.900" htmlFor={id}>
+            <FormLabel color="gray.900" htmlFor={id}>
               {label}
             </FormLabel>
           )}
           <Input
             cursor="pointer"
             border="1px"
-            borderColor="teal.800"
-            _placeholder={{ color: "teal.800" }}
-            color="teal.900"
+            borderColor="gray.800"
+            _placeholder={{ color: "gray.500" }}
+            color="gray.900"
             _hover={{ borderColor: "blue.200" }}
-            bgColor="teal.300"
+            bgColor="gray.200"
             rounded="sm"
             ref={ref as React.LegacyRef<HTMLInputElement>}
             id={id}

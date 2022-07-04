@@ -21,6 +21,8 @@ export type btnState = typeof BTN_STATE[keyof typeof BTN_STATE];
 
 interface ButtonProps {
   children?: React.ReactNode;
+  isLoading?: boolean;
+  disabled?: boolean;
   onClick?: () => void;
   type?: "button" | "submit";
   variant?: btnType;
@@ -29,6 +31,8 @@ interface ButtonProps {
 const ButtonBase: React.FC<ButtonProps> = ({
   children,
   onClick,
+  isLoading,
+  disabled,
   size = "md",
   type = "button",
   variant = BTN.POSITIVE,
@@ -90,6 +94,8 @@ const ButtonBase: React.FC<ButtonProps> = ({
   return (
     <Button
       type={type}
+      isLoading={isLoading}
+      disabled={disabled}
       rounded="sm"
       bgColor={getColorVariant(BTN_STATE.BASE)}
       _hover={{ bg: getColorVariant(BTN_STATE.HOVER) }}

@@ -1,9 +1,16 @@
 import { Button, HStack, Stack } from "@chakra-ui/react";
 import type { ActionFunction } from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
-import { useActionData, useSubmit, useTransition } from "@remix-run/react";
+import {
+  useActionData,
+  useNavigate,
+  useSubmit,
+  useTransition,
+} from "@remix-run/react";
 import { FormProvider, useForm } from "react-hook-form";
+import { BackgroundContainer } from "~/components/BackgroundContainer";
 import { Modify } from "~/components/Bills/Modify";
+import ButtonBase from "~/components/ButtonBase/button-base";
 import Card from "~/components/Card";
 import Inset from "~/components/Inset";
 import { urlPath } from "~/constants/url-paths";
@@ -64,6 +71,7 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NewBillPage() {
   const actionData = useActionData<ActionData>();
+  const navigate = useNavigate();
   const { state } = useTransition();
   const submit = useSubmit();
   const methods = useForm<Bill>({
@@ -83,31 +91,29 @@ export default function NewBillPage() {
     submit(dataToFormData(data), { method: "post" });
   };
   return (
-    <Inset>
+    <BackgroundContainer p="4">
       <Card>
         <Stack>
           <FormProvider {...methods}>
             <Modify />
           </FormProvider>
-          <HStack justifyContent="flex-end" w="full">
-            <Button
-              rounded="sm"
-              onClick={handleSubmit(handleSave)}
-              size="lg"
-              colorScheme="cyan"
-              w="100px"
+          <HStack justifyContent="flex-end" w="full" spacing="4">
+            <ButtonBase
+              onClick={() => navigate(urlPath.BILLS_LIST)}
+              variant="NEGATIVE"
+            >
+              Cancel
+            </ButtonBase>
+            <ButtonBase
               disabled={state === "submitting"}
               isLoading={state === "submitting" || state === "loading"}
-              spinnerPlacement="start"
-              borderBottomColor="cyan.700"
-              borderBottomWidth="4px"
-              color="teal.800"
+              onClick={handleSubmit(handleSave)}
             >
               Save
-            </Button>
+            </ButtonBase>
           </HStack>
         </Stack>
       </Card>
-    </Inset>
+    </BackgroundContainer>
   );
 }

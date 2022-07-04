@@ -32,12 +32,9 @@ function findBreakPoint(breakpoints: Breakpoints = BP_VALUES, width: number) {
 }
 
 export default function useBreakpoints(
-  // elRef: React.LegacyRef<HTMLDivElement> | undefined,
   elRef: React.RefObject<HTMLDivElement>,
   breakpoints: Breakpoints
 ) {
-  // const firstQuery = Object.keys(breakpoints[0])[0];
-  // console.log("firstQuery", firstQuery);
   const [breakSize, setBreakSize] = React.useState<string>(BP.md);
   const observer = React.useRef<ResizeObserver>();
 
@@ -52,14 +49,6 @@ export default function useBreakpoints(
       observer.current = newObserver;
     }
   }, [breakpoints]);
-  // const observer = React.useRef(
-  //   new ResizeObserver((entries) => {
-  //     // Only care about the first element, expect one element to be watched
-  //     const { width } = entries[0].contentRect;
-
-  //     setBreakSize(findBreakPoint(breakpoints, width));
-  //   })
-  // );
 
   React.useEffect(() => {
     const refVar = elRef;
