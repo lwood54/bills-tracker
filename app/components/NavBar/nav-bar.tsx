@@ -19,7 +19,6 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
       display="flex"
       justifyContent="space-between"
       p="4"
-      bg="teal.600"
       alignItems="center"
       ref={navRef}
     >
@@ -50,7 +49,6 @@ const NavBar: React.FC<NavBarProps> = ({ user }) => {
         </NavLink>
       </Stack>
       {size !== BP.sm ? <Text color="white">{user.email}</Text> : null}
-      {/* {true ? <Text color="white">{user.email}</Text> : null} */}
       <Form action="/logout" method="post">
         <Button
           rounded="sm"

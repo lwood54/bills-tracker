@@ -2,7 +2,7 @@ import * as React from "react";
 import { getUser } from "./session.server";
 import { useOptionalUser } from "./utils";
 import { withEmotionCache } from "@emotion/react";
-import { ChakraProvider } from "@chakra-ui/react";
+import { Box, ChakraProvider } from "@chakra-ui/react";
 import {
   Links,
   LiveReload,
@@ -100,8 +100,18 @@ export default function App() {
   return (
     <Document>
       <ChakraProvider>
-        {user?.email && <NavBar user={user} />}
-        <Outlet />
+        <Box
+          bgGradient="linear(to-t, #9DECF9, #2C7A7B)"
+          bgColor="blue.400"
+          position="fixed"
+          top="0"
+          left="0"
+          right="0"
+          bottom="0"
+        >
+          {user?.email && <NavBar user={user} />}
+          <Outlet />
+        </Box>
       </ChakraProvider>
     </Document>
   );
