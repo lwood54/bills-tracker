@@ -7,8 +7,9 @@ import { calcMonthsToPayDown } from "~/helpers/paydown";
 interface PaydownProps {
   bill: Bill;
   showTitle?: boolean;
+  showDetails?: boolean;
 }
-const Paydown: React.FC<PaydownProps> = ({ bill, showTitle = false }) => {
+const Paydown: React.FC<PaydownProps> = ({ bill, showDetails = false }) => {
   const { count, totalInterest } = calcMonthsToPayDown(
     bill.payment,
     bill.balance,
@@ -20,6 +21,24 @@ const Paydown: React.FC<PaydownProps> = ({ bill, showTitle = false }) => {
 
   return (
     <Stack direction="column" spacing="1">
+      {showDetails && (
+        <Stack direction="row">
+          <Stack w="50%" spacing="0">
+            <Text fontWeight="semibold">Remaining Payments</Text>
+            {count < 0 ? (
+              <Text fontWeight="semibold">
+                Minimum payments do not cover the interest charge.
+              </Text>
+            ) : (
+              <Text fontWeight="semibold">{count}</Text>
+            )}
+          </Stack>
+          <Stack w="50%" spacing="0">
+            <Text fontWeight="semibold">Total Interest</Text>
+            <Text fontWeight="semibold">{formatter.format(totalInterest)}</Text>
+          </Stack>
+        </Stack>
+      )}
       <Stack direction="row" justifyContent="space-between">
         <Text fontWeight="semibold" fontSize={12} color="white">
           {formatter.format(bill.balance)}
@@ -62,22 +81,22 @@ const Paydown: React.FC<PaydownProps> = ({ bill, showTitle = false }) => {
     //       />
     //     </div>
     //   </div>
-    //   <div className="details">
-    //     <div className="payment-container">
-    //       <p className="label">Remaining Payments</p>
-    //       {count < 0 ? (
-    //         <p className="payment-label">
-    //           Minimum payments do not cover the interest charge.
-    //         </p>
-    //       ) : (
-    //         <p className="payment-label">{count}</p>
-    //       )}
-    //     </div>
-    //     <div className="payment-container">
-    //       <p className="label">Total Interest</p>
-    //       {formatter.format(totalInterest)}
-    //     </div>
+    // <div className="details">
+    //   <div className="payment-container">
+    //     <p className="label">Remaining Payments</p>
+    //     {count < 0 ? (
+    //       <p className="payment-label">
+    //         Minimum payments do not cover the interest charge.
+    //       </p>
+    //     ) : (
+    //       <p className="payment-label">{count}</p>
+    //     )}
     //   </div>
+    //   <div className="payment-container">
+    //     <p className="label">Total Interest</p>
+    //     {formatter.format(totalInterest)}
+    //   </div>
+    // </div>
     // </div>
   );
 };
