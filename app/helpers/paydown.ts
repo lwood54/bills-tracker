@@ -1,3 +1,6 @@
+import type { Bill } from "@prisma/client";
+import type { Totals } from "~/types/bills";
+
 export const calcAnnualInterestCost = (bal: number, int: number): number => {
   return (bal * int) / 100;
 };
@@ -27,4 +30,22 @@ export const calcMonthsToPayDown = (
     }
   }
   return { count, totalInterest };
+};
+
+export const getTotals = (bills: Bill[]): Totals => {
+  const totalPayments = bills.reduce((prev, cur) => prev + cur.payment, 0);
+  const totalBalance = bills.reduce((prev, cur) => prev + cur.balance, 0);
+  const totalInterest = bills.reduce(
+    (prev, cur) =>
+      prev +
+      calcMonthsToPayDown(cur.payment, cur.balance, cur.interestRate)
+        .totalInterest,
+    0
+  );
+
+  return {
+    payments: totalPayments,
+    balance: totalBalance,
+    interestPayments: totalInterest,
+  };
 };
