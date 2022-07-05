@@ -55,9 +55,7 @@ const BillView: React.FC<BillViewProps> = ({ bill }) => {
         </DisplayField>
       </Stack>
       <Stack direction={directionType}>
-        <DisplayField label="Day Due">
-          {formatter.format(bill.payment)}
-        </DisplayField>
+        <DisplayField label="Day Due">{bill.dayDue}</DisplayField>
         <DisplayField label="Last Updated at">
           {getDateAndTimeStrings(new Date(bill.updatedAt))}
         </DisplayField>

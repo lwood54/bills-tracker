@@ -12,7 +12,6 @@ import { BackgroundContainer } from "~/components/BackgroundContainer";
 import { Modify } from "~/components/Bills/Modify";
 import ButtonBase from "~/components/ButtonBase/button-base";
 import Card from "~/components/Card";
-import Inset from "~/components/Inset";
 import { urlPath } from "~/constants/url-paths";
 import { dataToFormData } from "~/helpers/conversions";
 import type { Bill } from "~/models/bill.server";
@@ -36,8 +35,8 @@ export const action: ActionFunction = async ({ request }) => {
 
   const formData = await request.formData();
   const balance = Number(formData.get("balance"));
-  const dayDue = Number(formData.get("daydue"));
-  const interestRate = Number(formData.get("interestrate"));
+  const dayDue = Number(formData.get("dayDue"));
+  const interestRate = Number(formData.get("interestRate"));
   const payment = Number(formData.get("payment"));
   const title = formData.get("title")?.toString();
   const limit = Number(formData.get("limit"));

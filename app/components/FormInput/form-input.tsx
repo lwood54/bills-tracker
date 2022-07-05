@@ -15,18 +15,28 @@ interface FormInputProps {
   placeholder?: string;
   spacing?: string;
   type?: "text" | "number" | "email" | "password";
+  labelColor?: string;
 }
 
 const FormInput: React.FC<FormInputProps> = React.forwardRef(
   (
-    { error, id, label, placeholder, spacing = ".5", type = "text", ...rest },
+    {
+      error,
+      id,
+      label,
+      placeholder,
+      labelColor = "white",
+      spacing = "-1",
+      type = "text",
+      ...rest
+    },
     ref
   ) => {
     return (
       <FormControl isInvalid={Boolean(error?.message)}>
         <Stack direction="column" spacing={spacing} alignItems="flex-start">
           {label && (
-            <FormLabel color="gray.900" htmlFor={id}>
+            <FormLabel color={labelColor} htmlFor={id}>
               {label}
             </FormLabel>
           )}

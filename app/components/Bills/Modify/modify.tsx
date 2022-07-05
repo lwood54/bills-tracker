@@ -22,67 +22,68 @@ const Modify: React.FC<ModifyProps> = ({ bill }) => {
 
   return (
     <Form>
-      <FormInput
-        id="title"
-        error={errors?.title}
-        {...register("title", {
-          required: VALIDATION.REQUIRED,
-        })}
-        label="Title"
-      />
-      <Stack ref={modifyRef} direction={directionType}>
+      <Stack>
         <FormInput
-          id="balance"
-          error={errors.balance}
-          {...register("balance", {
+          id="title"
+          error={errors?.title}
+          {...register("title", {
             required: VALIDATION.REQUIRED,
-            validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
           })}
-          label="Balance"
+          label="Title"
         />
+        <Stack ref={modifyRef} direction={directionType}>
+          <FormInput
+            id="balance"
+            error={errors.balance}
+            {...register("balance", {
+              required: VALIDATION.REQUIRED,
+              validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
+            })}
+            label="Balance"
+          />
+          <FormInput
+            id="limit"
+            error={errors.limit}
+            {...register("limit", {
+              required: VALIDATION.REQUIRED,
+              validate: (v) => isPositive(v, true) || VALIDATION.POS_INT, // TODO: validate for greater than balance
+            })}
+            label="Limit"
+          />
+        </Stack>
+        <Stack direction={directionType}>
+          <FormInput
+            id="interest"
+            error={errors.interestRate}
+            {...register("interestRate", {
+              required: VALIDATION.REQUIRED,
+              validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
+            })}
+            label="Interest"
+          />
+          <FormInput
+            id="payment"
+            error={errors.payment}
+            {...register("payment", {
+              required: VALIDATION.REQUIRED,
+              validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
+            })}
+            label="Payment"
+          />
+        </Stack>
         <FormInput
-          id="limit"
-          error={errors.limit}
-          {...register("limit", {
+          id="dayDue"
+          error={errors.dayDue}
+          {...register("dayDue", {
             required: VALIDATION.REQUIRED,
-            validate: (v) => isPositive(v, true) || VALIDATION.POS_INT, // TODO: validate for greater than balance
+            validate: {
+              positive: (v) => isPositive(v) || VALIDATION.GREATER_THAN_ZERO,
+              lessThan30: (v) => Number(v) < 32 || VALIDATION.LESS_THAN_32,
+            },
           })}
-          label="Limit"
+          label="Day Due"
         />
       </Stack>
-      <Stack direction={directionType}>
-        <FormInput
-          id="interest"
-          error={errors.interestRate}
-          {...register("interestRate", {
-            required: VALIDATION.REQUIRED,
-            validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
-          })}
-          label="Interest"
-        />
-        <FormInput
-          id="payment"
-          error={errors.payment}
-          {...register("payment", {
-            required: VALIDATION.REQUIRED,
-            validate: (v) => isPositive(v, true) || VALIDATION.POS_INT,
-          })}
-          label="Payment"
-        />
-      </Stack>
-      <FormInput
-        id="dayDue"
-        error={errors.dayDue}
-        {...register("dayDue", {
-          required: VALIDATION.REQUIRED,
-          validate: {
-            positive: (v) => isPositive(v) || VALIDATION.GREATER_THAN_ZERO,
-            lessThan30: (v) => Number(v) < 32 || VALIDATION.LESS_THAN_32,
-          },
-        })}
-        placeholder="Day Due"
-        label="Day Due"
-      />
     </Form>
   );
 };
