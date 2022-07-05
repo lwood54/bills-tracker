@@ -26,7 +26,7 @@ const FormInput: React.FC<FormInputProps> = React.forwardRef(
       label,
       placeholder,
       labelColor = "white",
-      spacing = "-1",
+      spacing = "0",
       type = "text",
       ...rest
     },
@@ -36,7 +36,7 @@ const FormInput: React.FC<FormInputProps> = React.forwardRef(
       <FormControl isInvalid={Boolean(error?.message)}>
         <Stack direction="column" spacing={spacing} alignItems="flex-start">
           {label && (
-            <FormLabel color={labelColor} htmlFor={id}>
+            <FormLabel color={labelColor} htmlFor={id} m="0">
               {label}
             </FormLabel>
           )}
